@@ -44,14 +44,15 @@ cd ballast-lane-test
 Create a `.env` file in the root:
 
 ```env
+POSTGRES_USER=nestuser
+POSTGRES_PASSWORD=nestpass
+POSTGRES_DB=nestdb
+POSTGRES_HOST=db #set to localhost to run locally
+POSTGRES_PORT=5432
 DAILYMED_API_BASE=https://dailymed.nlm.nih.gov/dailymed/services/v2
 ICD10_API_BASE=https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search
+JWT_SECRET=any_secret
 OPENAI_API_KEY=your-openai-key
-DATABASE_HOST=db
-DATABASE_PORT=5432
-DATABASE_USER=postgres
-DATABASE_PASSWORD=postgres
-DATABASE_NAME=labels
 ```
 
 ### 3. Run the project
