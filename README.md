@@ -82,14 +82,11 @@ All routes require a bearer token, except:
 | **Auth**                                                                                          |
 | POST   | `/api/auth/register`                | Registers a new user                                      |
 | POST   | `/api/auth/login`                   | Logs in a user and returns a JWT                          |
-
 | **Labels**                                                                                        |
 | POST   | `/api/labels/process`               | Processes and stores label indications from DailyMed      |
-
 | **Programs**                                                                                      |
 | GET    | `/api/programs`                     | Lists programs with optional search filters               |
 | GET    | `/api/programs/:program_id`         | Returns a single program with its related indications     |
-
 | **Indications**                                                                                   |
 | POST   | `/api/indications`                  | Creates a new indication                                  |
 | GET    | `/api/indications`                  | Lists all indications                                     |
