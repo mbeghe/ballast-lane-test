@@ -69,36 +69,36 @@ export class DataProcessService {
 
   private getAllNodes(arr: any[], key: string): any[] {
     if (!Array.isArray(arr)) return [];
-    return arr.filter((item) => Object.hasOwn(item, key)).map((item) => item[key]);
+    return arr
+      .filter((item) => Object.hasOwn(item, key))
+      .map((item) => item[key]);
   }
 
-private getText(node: any): string {
-  if (!node) return '';
+  private getText(node: any): string {
+    if (!node) return '';
 
-  if (typeof node === 'string') return node;
+    if (typeof node === 'string') return node;
 
-  if (Array.isArray(node)) {
-    return node.map((n) => this.getText(n)).join(' ');
-  }
-
-  if (typeof node === 'object') {
-    const result: string[] = [];
-
-    for (const [key, value] of Object.entries(node)) {
-      if (key === '#text') {
-        result.push(value as string);
-      } else if (Array.isArray(value)) {
-        result.push(value.map((v) => this.getText(v)).join(' '));
-      } else if (typeof value === 'object') {
-        result.push(this.getText(value));
-      }
+    if (Array.isArray(node)) {
+      return node.map((n) => this.getText(n)).join(' ');
     }
 
-    return result.join(' ');
+    if (typeof node === 'object') {
+      const result: string[] = [];
+
+      for (const [key, value] of Object.entries(node)) {
+        if (key === '#text') {
+          result.push(value as string);
+        } else if (Array.isArray(value)) {
+          result.push(value.map((v) => this.getText(v)).join(' '));
+        } else if (typeof value === 'object') {
+          result.push(this.getText(value));
+        }
+      }
+
+      return result.join(' ');
+    }
+
+    return '';
   }
-
-  return '';
-}
-
-
 }

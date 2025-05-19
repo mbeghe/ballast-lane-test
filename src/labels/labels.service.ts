@@ -14,7 +14,6 @@ import { Indication } from 'src/entities/indication.entity';
 import { IndicationBaseResponseDto } from '../indications/dtos/indication-base-response.dto';
 import { ICD10Code } from './interfaces/icd10-code.interface';
 import { LabelSource } from 'src/common/types/label-source-type';
-import { Program } from 'src/entities/program.entity';
 import { ProgramsService } from 'src/programs/programs.service';
 
 @Injectable()
@@ -37,17 +36,26 @@ export class LabelsService {
 
     if (!programId) {
       this.logger.warn(`ProgramId not found for label: ${labelName}`);
-      throw new BadRequestException(`No DailyMed entry found for label "${labelName}"`);
+      throw new BadRequestException(
+        `No DailyMed entry found for label "${labelName}"`,
+      );
     }
 
-    const program = await this.programsService.findOrCreateProgram(labelName, programId);
+    const program = await this.programsService.findOrCreateProgram(
+      labelName,
+      programId,
+    );
 
     let xml: string;
     try {
       xml = await this.dataRetrieval.getXMLByProgramId(programId);
     } catch (error: any) {
-      this.logger.error(`Error retrieving XML for programId ${programId}: ${error?.message ?? error}`);
-      throw new InternalServerErrorException(`Failed to fetch SPL XML for "${labelName}"`);
+      this.logger.error(
+        `Error retrieving XML for programId ${programId}: ${error?.message ?? error}`,
+      );
+      throw new InternalServerErrorException(
+        `Failed to fetch SPL XML for "${labelName}"`,
+      );
     }
 
     let indications: { title: string; description: string }[];
@@ -55,13 +63,19 @@ export class LabelsService {
     try {
       indications = await this.dataProcess.processXML(xml);
       if (!indications.length) {
-        this.logger.warn(`No indications found in XML for programId ${programId}`);
+        this.logger.warn(
+          `No indications found in XML for programId ${programId}`,
+        );
       } else {
         this.logger.log(`Parsed ${indications.length} indications from XML`);
       }
     } catch (error: any) {
-      this.logger.error(`Error parsing indications from XML: ${error?.message ?? error}`);
-      throw new InternalServerErrorException(`Failed to parse indications for "${labelName}"`);
+      this.logger.error(
+        `Error parsing indications from XML: ${error?.message ?? error}`,
+      );
+      throw new InternalServerErrorException(
+        `Failed to parse indications for "${labelName}"`,
+      );
     }
 
     const mapped: IndicationBaseResponseDto[] = [];
@@ -74,7 +88,9 @@ export class LabelsService {
       try {
         codes = await this.dataRetrieval.getICD10Codes(indication.title);
       } catch (error: any) {
-        this.logger.error(`Error querying ICD10 codes for "${indication.title}": ${error?.message ?? error}`);
+        this.logger.error(
+          `Error querying ICD10 codes for "${indication.title}": ${error?.message ?? error}`,
+        );
         codes = [];
       }
 
@@ -82,16 +98,21 @@ export class LabelsService {
         icd10 = codes[0];
       } else if (codes.length > 1) {
         try {
-          icd10 = await this.aiService.suggestICD10Code(indication.title, codes);
+          icd10 = await this.aiService.suggestICD10Code(
+            indication.title,
+            codes,
+          );
           labelSource = icd10 ? 'ai' : 'unmappable';
         } catch (error: any) {
-          this.logger.error(`AI mapping failed for "${indication.title}": ${error?.message ?? error}`);
+          this.logger.error(
+            `AI mapping failed for "${indication.title}": ${error?.message ?? error}`,
+          );
           labelSource = 'unmappable';
         }
       } else {
         labelSource = 'unmappable';
       }
-      
+
       try {
         const saved = await this.indicationsRepo.save({
           title: indication.title,
@@ -99,26 +120,30 @@ export class LabelsService {
           icd10Code: icd10?.code ?? null,
           icd10Title: icd10?.title ?? null,
           source: labelSource,
-          program
+          program,
         } as Partial<Indication>);
 
         mapped.push({
-        id: saved.id,
-        title: indication.title,
-        description: indication.description,
-        icd10Code: icd10?.code ?? null,
-        icd10Title: icd10?.title ?? null,
-        source: labelSource,
-      });
+          id: saved.id,
+          title: indication.title,
+          description: indication.description,
+          icd10Code: icd10?.code ?? null,
+          icd10Title: icd10?.title ?? null,
+          source: labelSource,
+        });
       } catch (error: any) {
-        this.logger.error(`DB save failed for "${indication.title}": ${error?.message ?? error}`);
-        throw new InternalServerErrorException(`Failed to save indication "${indication.title}"`);
+        this.logger.error(
+          `DB save failed for "${indication.title}": ${error?.message ?? error}`,
+        );
+        throw new InternalServerErrorException(
+          `Failed to save indication "${indication.title}"`,
+        );
       }
-
-      
     }
 
-    this.logger.log(`Finished processing ${mapped.length} indications for label "${labelName}"`);
+    this.logger.log(
+      `Finished processing ${mapped.length} indications for label "${labelName}"`,
+    );
     return mapped;
   }
 }

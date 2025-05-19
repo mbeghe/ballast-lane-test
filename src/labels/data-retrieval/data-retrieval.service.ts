@@ -15,8 +15,12 @@ export class DataRetrievalService {
   ) {
     const dailyMedBase = this.configService.get<string>('DAILYMED_API_BASE');
     if (!dailyMedBase) {
-      this.logger.error('DAILYMED_API_BASE not defined in environment variables!');
-      throw new Error('DAILYMED_API_BASE not defined in environment variables!');
+      this.logger.error(
+        'DAILYMED_API_BASE not defined in environment variables!',
+      );
+      throw new Error(
+        'DAILYMED_API_BASE not defined in environment variables!',
+      );
     }
     const icd10ApiBase = this.configService.get<string>('ICD10_API_BASE');
     if (!icd10ApiBase) {
@@ -34,13 +38,17 @@ export class DataRetrievalService {
       const response = await this.httpService.axiosRef.get(url);
       const { data } = response.data;
       if (data?.length) {
-        this.logger.debug(`Found programId ${data[0].setid} for label: ${label}`);
+        this.logger.debug(
+          `Found programId ${data[0].setid} for label: ${label}`,
+        );
         return data[0].setid;
       }
       this.logger.warn(`No programId found for label: ${label}`);
       return null;
     } catch (error: any) {
-      this.logger.error(`Error fetching programId for label ${label}: ${error?.message ?? error}`);
+      this.logger.error(
+        `Error fetching programId for label ${label}: ${error?.message ?? error}`,
+      );
       return null;
     }
   }
@@ -49,10 +57,14 @@ export class DataRetrievalService {
     const url = `${this.dailyMedBase}/spls/${programId}.xml`;
     this.logger.verbose(`Fetching XML for programId: ${programId}`);
     try {
-      const response = await this.httpService.axiosRef.get(url, { responseType: 'text' });
+      const response = await this.httpService.axiosRef.get(url, {
+        responseType: 'text',
+      });
       return response.data;
     } catch (error: any) {
-      this.logger.error(`Error fetching XML for programId ${programId}: ${error?.message ?? error}`);
+      this.logger.error(
+        `Error fetching XML for programId ${programId}: ${error?.message ?? error}`,
+      );
       throw error;
     }
   }
@@ -72,10 +84,14 @@ export class DataRetrievalService {
           });
         }
       }
-      this.logger.debug(`Found ${codes.length} ICD10 codes for term: "${term}"`);
+      this.logger.debug(
+        `Found ${codes.length} ICD10 codes for term: "${term}"`,
+      );
       return codes;
     } catch (error: any) {
-      this.logger.error(`Error fetching ICD10 codes for term "${term}": ${error?.message ?? error}`);
+      this.logger.error(
+        `Error fetching ICD10 codes for term "${term}": ${error?.message ?? error}`,
+      );
       return [];
     }
   }

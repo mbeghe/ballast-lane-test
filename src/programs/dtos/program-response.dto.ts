@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Expose } from "class-transformer";
+import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
 
 export class ProgramResponseDto {
   @ApiProperty()
@@ -14,4 +14,3 @@ export class ProgramResponseDto {
   @Expose()
   programId: string;
 }
-

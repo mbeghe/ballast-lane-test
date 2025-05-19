@@ -5,6 +5,9 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 export class FindProgramsDto {
   @IsOptional()
   @IsString()
-  @ApiPropertyOptional({ description: 'Search term to look for in indication title/description/icd10' })
+  @ApiPropertyOptional({
+    description:
+      'Search term to look for in indication title/description/icd10',
+  })
   search?: string;
 }

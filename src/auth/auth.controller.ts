@@ -6,7 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiTags, ApiResponse, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { RegisterDto } from './dtos/register.dto';
 import { LoginDto } from './dtos/login.dto';
 import { Public } from './decorators/public.decorator';
@@ -21,7 +21,10 @@ export class AuthController {
   @Public()
   @Post('register')
   @ApiResponse({ status: 201, description: 'User registered' })
-  @ApiResponse({ status: 400, description: 'User already exists or invalid data' })
+  @ApiResponse({
+    status: 400,
+    description: 'User already exists or invalid data',
+  })
   async register(@Body() dto: RegisterDto) {
     try {
       return await this.authService.register(dto);

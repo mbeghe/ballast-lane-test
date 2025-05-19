@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, Unique } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  Unique,
+} from 'typeorm';
 import { Program } from './program.entity';
 import { LabelSource } from 'src/common/types/label-source-type';
 
@@ -26,6 +33,8 @@ export class Indication {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => Program, (program) => program.indications, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Program, (program) => program.indications, {
+    onDelete: 'CASCADE',
+  })
   program: Program;
 }

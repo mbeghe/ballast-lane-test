@@ -1,7 +1,7 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Program } from 'src/entities/program.entity';
-import { ILike, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { FindProgramsDto } from './dtos/find-programs.dto';
 import { ProgramWithIndicationsResponseDto } from './dtos/program-with-indications-response.dto';
 import { plainToInstance } from 'class-transformer';
@@ -46,7 +46,9 @@ export class ProgramsService {
     });
   }
 
-  async findByProgramId(programId: string): Promise<ProgramWithIndicationsResponseDto> {
+  async findByProgramId(
+    programId: string,
+  ): Promise<ProgramWithIndicationsResponseDto> {
     const program = await this.findEntityByProgramId(programId);
 
     if (!program) {

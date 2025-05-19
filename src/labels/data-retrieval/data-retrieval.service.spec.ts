@@ -35,7 +35,9 @@ describe('DataRetrievalService', () => {
     }).compile();
 
     service = module.get<DataRetrievalService>(DataRetrievalService);
-    loggerErrorSpy = jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+    loggerErrorSpy = jest
+      .spyOn(Logger.prototype, 'error')
+      .mockImplementation(() => {});
   });
 
   function createMockAxiosResponse<T>(data: T): AxiosResponse<T> {
@@ -89,9 +91,13 @@ describe('DataRetrievalService', () => {
   });
 
   it('should throw on getXMLByProgramId error', async () => {
-    mockHttpService.axiosRef.get.mockRejectedValueOnce(new Error('Fetch error'));
+    mockHttpService.axiosRef.get.mockRejectedValueOnce(
+      new Error('Fetch error'),
+    );
 
-    await expect(service.getXMLByProgramId('bad-id')).rejects.toThrow('Fetch error');
+    await expect(service.getXMLByProgramId('bad-id')).rejects.toThrow(
+      'Fetch error',
+    );
   });
 
   it('should return ICD10 codes from valid response', async () => {
@@ -100,7 +106,10 @@ describe('DataRetrievalService', () => {
         'meta',
         ['K20.0', 'L28.1'],
         'meta',
-        [['a', 'Esophagitis'], ['b', 'Nodularis']],
+        [
+          ['a', 'Esophagitis'],
+          ['b', 'Nodularis'],
+        ],
       ]),
     );
 
@@ -121,7 +130,9 @@ describe('DataRetrievalService', () => {
   });
 
   it('should return empty array on ICD10 API error', async () => {
-    mockHttpService.axiosRef.get.mockRejectedValueOnce(new Error('ICD API down'));
+    mockHttpService.axiosRef.get.mockRejectedValueOnce(
+      new Error('ICD API down'),
+    );
     const result = await service.getICD10Codes('error');
     expect(result).toEqual([]);
   });

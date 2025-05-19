@@ -13,6 +13,12 @@ import { ProgramsService } from 'src/programs/programs.service';
 @Module({
   imports: [HttpModule, TypeOrmModule.forFeature([Indication, Program])],
   controllers: [LabelsController],
-  providers: [LabelsService, DataRetrievalService, DataProcessService, AIService, ProgramsService],
+  providers: [
+    LabelsService,
+    DataRetrievalService,
+    DataProcessService,
+    AIService,
+    ProgramsService,
+  ],
 })
 export class LabelsModule {}

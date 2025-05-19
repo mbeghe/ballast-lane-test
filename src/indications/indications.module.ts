@@ -9,6 +9,6 @@ import { Program } from 'src/entities/program.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Indication, Program])],
   providers: [IndicationsService, ProgramsService],
-  controllers: [IndicationsController]
+  controllers: [IndicationsController],
 })
 export class IndicationsModule {}

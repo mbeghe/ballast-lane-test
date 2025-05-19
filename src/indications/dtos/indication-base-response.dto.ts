@@ -23,7 +23,10 @@ export class IndicationBaseResponseDto {
   @Expose()
   icd10Title: string | null;
 
-  @ApiProperty({ enum: Object.values(LABEL_SOURCES), default: LABEL_SOURCES.MANUAL })
+  @ApiProperty({
+    enum: Object.values(LABEL_SOURCES),
+    default: LABEL_SOURCES.MANUAL,
+  })
   @Expose()
   source: LabelSource;
 }

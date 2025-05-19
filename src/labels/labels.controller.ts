@@ -14,8 +14,15 @@ export class LabelsController {
 
   @Post('process')
   @ApiBody({ type: ProcessLabelDto })
-  @ApiResponse({ status: 200, description: 'Processed label', type: IndicationBaseResponseDto, isArray: true })
-  async processLabel(@Body() body: ProcessLabelDto): Promise<IndicationBaseResponseDto[]> {
+  @ApiResponse({
+    status: 200,
+    description: 'Processed label',
+    type: IndicationBaseResponseDto,
+    isArray: true,
+  })
+  async processLabel(
+    @Body() body: ProcessLabelDto,
+  ): Promise<IndicationBaseResponseDto[]> {
     const { label } = body;
     this.logger.log(`Request to process label: ${label}`);
     return await this.labelsService.processLabel(label);

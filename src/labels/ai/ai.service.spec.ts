@@ -12,7 +12,7 @@ describe('AIService', () => {
   let configService: ConfigService;
   let openaiInstance: any;
   let loggerErrorSpy: jest.SpyInstance;
-  
+
   beforeEach(async () => {
     const configServiceMock = {
       get: jest.fn().mockReturnValue('fake-api-key'),
@@ -37,7 +37,9 @@ describe('AIService', () => {
 
     service = module.get<AIService>(AIService);
     configService = module.get<ConfigService>(ConfigService);
-    loggerErrorSpy = jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+    loggerErrorSpy = jest
+      .spyOn(Logger.prototype, 'error')
+      .mockImplementation(() => {});
   });
 
   it('should be defined', () => {

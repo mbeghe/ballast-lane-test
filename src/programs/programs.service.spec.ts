@@ -35,7 +35,9 @@ describe('ProgramsService', () => {
 
     service = module.get<ProgramsService>(ProgramsService);
     repo = module.get(getRepositoryToken(Program));
-    loggerErrorSpy = jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+    loggerErrorSpy = jest
+      .spyOn(Logger.prototype, 'error')
+      .mockImplementation(() => {});
   });
 
   it('should be defined', () => {

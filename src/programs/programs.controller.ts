@@ -1,4 +1,4 @@
-import { Controller, Get, NotFoundException, Param, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { FindProgramsDto } from './dtos/find-programs.dto';
 import { ProgramsService } from './programs.service';
 import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -16,11 +16,16 @@ export class ProgramsController {
     return this.programsService.findByFilters(filters);
   }
 
-
-    @Get(':program_id')
-  @ApiResponse({ status: 200, description: 'Program found', type: ProgramWithIndicationsResponseDto })
+  @Get(':program_id')
+  @ApiResponse({
+    status: 200,
+    description: 'Program found',
+    type: ProgramWithIndicationsResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Program not found' })
-  async findById(@Param('program_id') id: string): Promise<ProgramWithIndicationsResponseDto> {
+  async findById(
+    @Param('program_id') id: string,
+  ): Promise<ProgramWithIndicationsResponseDto> {
     return await this.programsService.findByProgramId(id);
   }
 }

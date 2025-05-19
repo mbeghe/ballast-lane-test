@@ -31,8 +31,10 @@ describe('IndicationsController', () => {
 
     controller = module.get<IndicationsController>(IndicationsController);
     service = module.get<IndicationsService>(IndicationsService);
-    
-    loggerErrorSpy = jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+
+    loggerErrorSpy = jest
+      .spyOn(Logger.prototype, 'error')
+      .mockImplementation(() => {});
   });
 
   it('should be defined', () => {
@@ -44,11 +46,15 @@ describe('IndicationsController', () => {
       const dto: CreateIndicationDto = {
         title: 'Test',
         description: 'Desc',
-        programId: "test",
+        programId: 'test',
         icd10Code: 'A00',
         icd10Title: 'Test Disease',
       };
-      const expectedResult = { id: 1, ...dto, program: { id: "test", drug: 'TestDrug' } };
+      const expectedResult = {
+        id: 1,
+        ...dto,
+        program: { id: 'test', drug: 'TestDrug' },
+      };
       mockIndicationsService.create.mockResolvedValue(expectedResult);
 
       const result = await controller.create(dto);
@@ -70,7 +76,11 @@ describe('IndicationsController', () => {
   describe('update', () => {
     it('should update an indication', async () => {
       const dto: UpdateIndicationDto = { title: 'Updated' };
-      const expectedResult = { id: 1, ...dto, program: { id: 1, drug: 'UpdatedDrug' } };
+      const expectedResult = {
+        id: 1,
+        ...dto,
+        program: { id: 1, drug: 'UpdatedDrug' },
+      };
       mockIndicationsService.update.mockResolvedValue(expectedResult);
 
       const result = await controller.update(1, dto);
@@ -81,7 +91,11 @@ describe('IndicationsController', () => {
 
   describe('findOne', () => {
     it('should return one indication', async () => {
-      const expectedResult = { id: 1, title: 'Single', program: { id: 1, drug: 'Drug' } };
+      const expectedResult = {
+        id: 1,
+        title: 'Single',
+        program: { id: 1, drug: 'Drug' },
+      };
       mockIndicationsService.findOne.mockResolvedValue(expectedResult);
 
       const result = await controller.findOne(1);

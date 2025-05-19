@@ -23,7 +23,9 @@ export class IndicationsService {
   async create(
     dto: CreateIndicationDto,
   ): Promise<IndicationWithProgramResponseDto> {
-    const program = await this.programService.findEntityByProgramId(dto.programId);
+    const program = await this.programService.findEntityByProgramId(
+      dto.programId,
+    );
     if (!program) {
       this.logger.error(`Program with programId ${dto.programId} not found`);
       throw new NotFoundException(
@@ -40,7 +42,7 @@ export class IndicationsService {
       this.logger.log(`Indication saved with id ${saved.id}`);
       return plainToInstance(IndicationWithProgramResponseDto, saved, {
         excludeExtraneousValues: true,
-      });;
+      });
     } catch (error) {
       this.logger.error('Failed to save indication', error.stack);
       throw new InternalServerErrorException(

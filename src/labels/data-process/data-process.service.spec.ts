@@ -12,7 +12,9 @@ describe('DataProcessService', () => {
     }).compile();
 
     service = module.get<DataProcessService>(DataProcessService);
-    loggerErrorSpy = jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+    loggerErrorSpy = jest
+      .spyOn(Logger.prototype, 'error')
+      .mockImplementation(() => {});
   });
 
   it('should be defined', () => {

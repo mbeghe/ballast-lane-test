@@ -27,7 +27,9 @@ describe('AuthController', () => {
     controller = module.get<AuthController>(AuthController);
     authService = module.get<AuthService>(AuthService);
 
-    loggerErrorSpy = jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+    loggerErrorSpy = jest
+      .spyOn(Logger.prototype, 'error')
+      .mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -40,7 +42,10 @@ describe('AuthController', () => {
 
   describe('register', () => {
     it('should call authService.register and return result', async () => {
-      const dto: RegisterDto = { email: 'test@example.com', password: 'secret' };
+      const dto: RegisterDto = {
+        email: 'test@example.com',
+        password: 'secret',
+      };
       const expected = { userId: 1 };
 
       (authService.register as jest.Mock).mockResolvedValue(expected);
@@ -51,8 +56,13 @@ describe('AuthController', () => {
     });
 
     it('should throw BadRequestException when authService.register fails', async () => {
-      const dto: RegisterDto = { email: 'existing@example.com', password: 'secret' };
-      (authService.register as jest.Mock).mockRejectedValue(new Error('User already exists'));
+      const dto: RegisterDto = {
+        email: 'existing@example.com',
+        password: 'secret',
+      };
+      (authService.register as jest.Mock).mockRejectedValue(
+        new Error('User already exists'),
+      );
 
       try {
         await controller.register(dto);
@@ -77,7 +87,9 @@ describe('AuthController', () => {
 
     it('should throw BadRequestException when authService.login fails', async () => {
       const dto: LoginDto = { email: 'fail@example.com', password: 'wrong' };
-      (authService.login as jest.Mock).mockRejectedValue(new Error('Invalid credentials'));
+      (authService.login as jest.Mock).mockRejectedValue(
+        new Error('Invalid credentials'),
+      );
 
       try {
         await controller.login(dto);

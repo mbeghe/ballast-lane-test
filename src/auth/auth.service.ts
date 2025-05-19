@@ -1,5 +1,9 @@
 // auth/auth.service.ts
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
@@ -8,7 +12,6 @@ import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
-
 
 @Injectable()
 export class AuthService {
@@ -37,7 +40,10 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const token = this.jwtService.sign({ sub: user.id, email: user.email }, { secret: this.configService.get<string>('JWT_SECRET'), expiresIn: '1h' });
+    const token = this.jwtService.sign(
+      { sub: user.id, email: user.email },
+      { secret: this.configService.get<string>('JWT_SECRET'), expiresIn: '1h' },
+    );
     return { access_token: token };
   }
 }
